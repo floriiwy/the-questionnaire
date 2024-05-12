@@ -1,8 +1,42 @@
 const form = document.querySelector(".form");
-form.addEventListener("submit", (event) => {
-  // Предотвращает действие браузера по умолчанию. В данном случае — отправку формы
-  // https://learn.javascript.ru/default-browser-action
-  event.preventDefault();
+const nameUser = document.querySelector("#name");
+const secondName = document.querySelector("#secondName");
+const email = document.querySelector("#email");
+const phone = document.querySelector("#phone");
+const agree = document.querySelector("#agree");
 
-  // Здесь твой код
+form.addEventListener("submit", (event) => {
+    // Предотвращает действие браузера по умолчанию. В данном случае — отправку формы
+    // https://learn.javascript.ru/default-browser-action
+    event.preventDefault();
+    fetch('https://polinashneider.space/user', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer: floriiwy'
+            },
+            body: JSON.stringify({
+                name: `${nameUser.value}`,
+                secondName: `${secondName.value}`,
+                email: `${email.value}`,
+                phone: `${phone.value}`,
+                agree: `${agree.checked}`
+            })
+        })
+        .then((result) => {
+            return result.json()
+        })
+        .then((data) => {
+            console.log(data);
+        })
+        .catch(() => {
+            form.reset();
+            alert("Что-то пошло не так... Пожалуйста, попробуйте снова!");
+        })
+        .finally(() => {
+            form.reset();
+            alert("Анкета отправлена!");
+        })
+        // Здесь твой код
 });
